@@ -1,22 +1,67 @@
-# DSA-Problems
+# LeetCode → GitHub Automation 🚀
 
-My personal collection of **LeetCode solutions and DSA practice**, automatically synchronized to GitHub.
+Automatically sync your **accepted LeetCode submissions** to your own GitHub repository using **Python, Playwright, Brave, and Git**.
 
-The project uses **Python + Playwright + Brave + Git** to fetch accepted LeetCode submissions and push them to this repository.
+No LeetHub required.
+
+The script connects to your manually authenticated Brave browser session, retrieves your accepted submissions from LeetCode, saves the source code locally, and automatically commits and pushes the changes to your GitHub repository.
 
 ---
 
-# 🚀 Complete Setup
+## ✨ Features
 
-## 1. Requirements
+* 🔄 Automatically sync accepted LeetCode submissions
+* 🌐 Supports multiple programming languages
+* 💾 Preserves multiple accepted submissions for the same problem
+* 🆔 Uses the LeetCode submission ID as the filename
+* 📁 Automatically creates problem folders
+* 🚫 Skips submissions already synchronized
+* 📤 Automatically commits and pushes to GitHub
+* 🔐 Does not store your LeetCode password
+* 🔑 Uses your existing Git authentication
+* 🧩 Works with any GitHub repository
+* 🆓 No third-party GitHub extension required
 
-Install:
+---
+
+# 📂 Repository Structure
+
+Put `leetcode_script.py` directly inside your own GitHub repository:
+
+```text
+your-dsa-repository/
+│
+├── leetcode_script.py
+├── README.md
+│
+├── two-sum/
+│   ├── 2091234567.cpp
+│   └── 2091234568.py
+│
+├── valid-parentheses/
+│   └── 2091234569.cpp
+│
+├── reverse-linked-list/
+│   └── 2091234570.cpp
+│
+└── ...
+```
+
+The script automatically detects the repository folder where `leetcode_script.py` is located.
+
+You do **not** need to modify the repository name or GitHub username in the script.
+
+---
+
+# 🛠️ Requirements
+
+Install the following:
 
 * Python 3
 * Git
 * Brave Browser
-* A GitHub account
-* A LeetCode account
+* LeetCode account
+* GitHub account
 
 Check Python:
 
@@ -32,7 +77,7 @@ git --version
 
 ---
 
-# 2. Install Python Package
+# 1. Install Playwright
 
 Open PowerShell:
 
@@ -40,60 +85,49 @@ Open PowerShell:
 pip install playwright
 ```
 
-No separate Chromium installation is required because the script uses Brave.
+The script uses your installed Brave browser, so you do not need to install another Chromium browser.
 
 ---
 
-# 3. Clone This Repository
+# 2. Use Your Existing GitHub Repository
 
-Choose a location for the project.
+You can use an existing repository or create a new one.
 
-Example:
-
-```powershell
-cd "C:\Users\harsh\Desktop"
-```
-
-Clone the repository:
+If you're setting it up on a new computer, clone your repository:
 
 ```powershell
-git clone https://github.com/kimdokja00/DSA-Problems.git
+git clone https://github.com/YOUR_USERNAME/YOUR_REPOSITORY.git
 ```
 
-Go inside it:
+Then enter the repository:
 
 ```powershell
-cd DSA-Problems
+cd YOUR_REPOSITORY
 ```
 
----
+Place `leetcode_script.py` inside this folder.
 
-# 4. Create the LeetCode Automation Folder
-
-The Python automation script should be kept separately from the repository.
-
-Example:
+For example:
 
 ```text
-Desktop/
-│
-├── leet script/
-│   └── leet2.py
-│
-└── DSA-Problems/
-    ├── README.md
-    └── ...
+my-dsa-repository/
+├── leetcode_script.py
+├── README.md
+├── two-sum/
+└── ...
 ```
 
-The script's repository path should point to the local `DSA-Problems` folder.
+### Important
+
+You **do not need to create a separate repository** for the automation.
+
+The script adds solutions to whichever Git repository contains `leetcode_script.py`.
 
 ---
 
-# 5. GitHub Authorization
+# 3. GitHub Authentication
 
-The script uses Git to push solutions to GitHub.
-
-Configure your Git identity:
+Make sure Git is configured:
 
 ```powershell
 git config --global user.name "YOUR_GITHUB_USERNAME"
@@ -109,174 +143,102 @@ Check:
 git config --global --list
 ```
 
-When you perform your first push, GitHub may ask you to authenticate.
+Test your repository:
 
-**Do not put your GitHub password inside `leet2.py`.**
+```powershell
+git remote -v
+```
 
-After Git authentication is configured, the script can automatically:
+You should see your own GitHub repository.
+
+The script uses normal Git commands:
 
 ```text
-git add .
+git add
 git commit
 git push
 ```
 
+You may need to authenticate GitHub the first time you push.
+
+**Never put your GitHub password, token, or credentials inside `leet2.py`.**
+
 ---
 
-# 6. Start Brave With Remote Debugging
+# 4. Start Brave With Remote Debugging
 
-The automation connects to a Brave browser session that you control.
+Close all Brave windows first.
 
-First, close all Brave windows.
-
-Then open PowerShell:
+Open PowerShell and run:
 
 ```powershell
 & "C:\Program Files\BraveSoftware\Brave-Browser\Application\brave.exe" --remote-debugging-port=9222 --user-data-dir="$env:USERPROFILE\brave-leetcode-profile"
 ```
 
-If Brave is installed in another location, use its actual `brave.exe` path.
-
----
-
-# 7. Login to LeetCode
-
-Brave will open.
-
-Go to:
-
-```text
-https://leetcode.com/
-```
-
-Click **Sign In** and log into your LeetCode account normally.
-
-You can use your normal LeetCode login method.
-
-The Python script does **not** need your LeetCode password.
-
-Keep this Brave window open while running the script.
-
----
-
-# 8. Test the LeetCode Connection
-
-Make sure Brave is running with:
-
-```text
---remote-debugging-port=9222
-```
-
-Then run:
-
-```powershell
-python leet2.py
-```
-
-The script should detect your logged-in LeetCode account.
-
-You should see something similar to:
-
-```text
-============================================================
-LeetCode user: YOUR_USERNAME
-============================================================
-```
-
----
-
-# 9. Repository Configuration
-
-The script expects the local Git repository to be:
-
-```text
-leetcode-solutions/
-```
-
-If your repository folder has a different name, change:
-
-```python
-REPO_DIR = os.path.abspath("leetcode-solutions")
-```
-
-to the actual location.
+If Brave is installed somewhere else, change the path to your `brave.exe`.
 
 For example:
 
-```python
-REPO_DIR = r"C:\Users\harsh\Desktop\DSA-Problems"
+```powershell
+& "C:\Program Files (x86)\BraveSoftware\Brave-Browser\Application\brave.exe" --remote-debugging-port=9222 --user-data-dir="$env:USERPROFILE\brave-leetcode-profile"
 ```
-
-This is recommended if the script is stored outside the repository.
 
 ---
 
-# 10. First Synchronization
+# 5. Login to LeetCode
 
-After logging into LeetCode:
+In the Brave window:
+
+1. Open LeetCode.
+2. Click **Sign In**.
+3. Log into your account normally.
+4. Keep the Brave window open.
+
+The script does **not** ask for or store your LeetCode password.
+
+---
+
+# 6. Run the Automation
+
+Open PowerShell inside your repository:
 
 ```powershell
-python leet2.py
+cd "PATH_TO_YOUR_REPOSITORY"
 ```
 
-The script will:
+Then:
+
+```powershell
+python leetcode_script.py
+```
+
+The script will automatically:
 
 ```text
-Connect to Brave
-       ↓
-Check LeetCode login
-       ↓
-Fetch submission history
-       ↓
-Find Accepted submissions
-       ↓
-Download source code
-       ↓
-Create problem folders
-       ↓
-Save solutions
-       ↓
+LeetCode
+   ↓
+Find accepted submissions
+   ↓
+Get source code
+   ↓
+Create problem folder
+   ↓
+Save solution
+   ↓
 git add .
-       ↓
+   ↓
 git commit
-       ↓
+   ↓
 git push
+   ↓
+GitHub
 ```
 
 ---
 
-# 📁 Repository Structure
+# 📁 Multiple Solutions
 
-For example:
-
-```text
-DSA-Problems/
-│
-├── two-sum/
-│   ├── 2091234567.cpp
-│   └── 2091234568.py
-│
-├── valid-parentheses/
-│   └── 2091234569.cpp
-│
-├── reverse-linked-list/
-│   └── 2091234570.cpp
-│
-├── generate-parentheses/
-│   └── 2091234571.cpp
-│
-└── README.md
-```
-
-The folder name is the LeetCode problem slug.
-
-The filename is the **submission ID**.
-
----
-
-# 🔄 Multiple Submissions
-
-If you submit the same problem multiple times, every accepted submission is preserved.
+If you submit the same problem multiple times and each submission is accepted, all submissions are preserved.
 
 Example:
 
@@ -287,135 +249,143 @@ two-sum/
 └── 2091240001.cpp
 ```
 
-This prevents one solution from overwriting another.
-
-If the same problem is solved in different languages:
-
-```text
-two-sum/
-├── 2091234567.cpp
-├── 2091237890.cpp
-└── 2091240001.py
-```
+The submission ID is used as the filename, so one solution does not overwrite another.
 
 ---
 
 # 🌐 Supported Languages
 
-The automation supports common LeetCode languages:
+The automation supports common LeetCode languages, including:
 
-* C
-* C++
-* Java
-* Python
-* JavaScript
-* TypeScript
-* C#
-* Go
-* Kotlin
-* Rust
-* PHP
-* Swift
-* Ruby
-* Scala
-* Dart
-* SQL
-* Bash
+| Language   | Extension |
+| ---------- | --------- |
+| C          | `.c`      |
+| C++        | `.cpp`    |
+| Java       | `.java`   |
+| Python     | `.py`     |
+| JavaScript | `.js`     |
+| TypeScript | `.ts`     |
+| C#         | `.cs`     |
+| Go         | `.go`     |
+| Kotlin     | `.kt`     |
+| Rust       | `.rs`     |
+| PHP        | `.php`    |
+| Swift      | `.swift`  |
+| Ruby       | `.rb`     |
+| Scala      | `.scala`  |
+| Dart       | `.dart`   |
+| SQL        | `.sql`    |
+| Bash       | `.sh`     |
 
 ---
 
-# 📝 Automatic Git Commit
+# 🔄 Daily Workflow
 
-Every synchronization creates the commit:
+Once everything is configured:
+
+### 1. Start Brave
+
+```powershell
+brave.exe --remote-debugging-port=9222 --user-data-dir="$env:USERPROFILE\brave-leetcode-profile"
+```
+
+### 2. Login to LeetCode
+
+Only required if your session has expired.
+
+### 3. Solve a problem
+
+Submit your solution and get:
+
+```text
+Accepted ✅
+```
+
+### 4. Run:
+
+```powershell
+python leetcode_script.py
+```
+
+### 5. Done 🎉
+
+The new solution will be pushed to your GitHub repository automatically.
+
+---
+
+# 📝 Git Commit
+
+The automation uses:
 
 ```text
 Add LeetCode questions
 ```
 
-For example:
+as the commit message.
+
+Example:
 
 ```text
 Add LeetCode questions
 ```
 
-The script then pushes automatically to:
-
-```text
-main
-```
-
----
-
-# 🧑‍💻 Normal Daily Workflow
-
-Once everything is configured, your workflow is very simple.
-
-### Step 1
-
-Start Brave:
+You don't need to manually run:
 
 ```powershell
-& "C:\Program Files\BraveSoftware\Brave-Browser\Application\brave.exe" --remote-debugging-port=9222 --user-data-dir="$env:USERPROFILE\brave-leetcode-profile"
+git add .
+git commit
+git push
 ```
 
-### Step 2
-
-Make sure you're logged into LeetCode.
-
-### Step 3
-
-Solve problems on LeetCode.
-
-### Step 4
-
-After getting an **Accepted** submission:
-
-```powershell
-python leet2.py
-```
-
-### Step 5
-
-The script automatically uploads the new solutions to GitHub.
+The script does it for you.
 
 ---
 
 # 🔐 Security
 
-The project does not store your:
+This project does not require your LeetCode password.
 
-* LeetCode password
-* GitHub password
+Authentication works through your manually logged-in Brave session.
 
-The LeetCode login is performed manually in Brave.
+The script also does not require giving a third-party browser extension access to your GitHub repositories.
 
-The script connects to the already authenticated browser session.
+### Never commit:
 
-Git handles GitHub authentication.
+```text
+passwords
+GitHub tokens
+session cookies
+browser profiles
+API keys
+```
 
-**Never add passwords, cookies, session tokens, or GitHub tokens to this repository.**
+Do not upload your Brave profile directory to GitHub.
 
 ---
 
-# ⚠️ Important
+# ⚠️ Troubleshooting
 
-Keep the Brave window running with:
+## Brave connection error
 
-```text
---remote-debugging-port=9222
-```
-
-while using the script.
-
-If the script says:
+If you see:
 
 ```text
 Could not connect to Brave
 ```
 
-restart Brave using the command from the setup section.
+make sure Brave was started with:
 
-If the script says:
+```text
+--remote-debugging-port=9222
+```
+
+Then run the script again.
+
+---
+
+## LeetCode login error
+
+If you see:
 
 ```text
 You are not logged into LeetCode
@@ -425,53 +395,116 @@ open LeetCode in the Brave window and log in again.
 
 ---
 
-# 🎯 Purpose
+## Git push error
 
-This project helps me:
+Check your remote:
 
-* Track my LeetCode progress
-* Automatically back up solutions
-* Practice DSA
-* Learn Git and GitHub
-* Preserve multiple solutions
-* Build a public coding portfolio
+```powershell
+git remote -v
+```
+
+Make sure it points to **your own GitHub repository**.
+
+Then test:
+
+```powershell
+git push
+```
 
 ---
 
-## ⭐ Workflow
+## Repository not detected
+
+Make sure `leetcode_script.py` is located inside your Git repository:
 
 ```text
-                    LEETCODE
-                       │
-                       ▼
-                 Solve Problem
-                       │
-                       ▼
-                    Accepted
-                       │
-                       ▼
-                  BRAVE SESSION
-                       │
-                       ▼
-                 Python Script
-                       │
-                       ▼
-              Fetch Source Code
-                       │
-                       ▼
-                 DSA-Problems
-                       │
-                       ▼
-                  Git Add
-                       │
-                       ▼
-                 Git Commit
-                       │
-                       ▼
-                  Git Push
-                       │
-                       ▼
-                    GITHUB
+your-repository/
+├── leetcode_script.py
+├── README.md
+└── ...
 ```
 
-**Solve → Submit → Sync → GitHub 🚀**
+The script automatically detects its own directory as the repository.
+
+---
+
+# 🤝 Using This With Your Own Repository
+
+You can use this automation with **any GitHub repository**.
+
+For example:
+
+```text
+GitHub:
+username1/leetcode
+username2/dsa
+username3/coding-solutions
+```
+
+Each person simply puts:
+
+```text
+leetcode_script.py
+```
+
+inside their own repository.
+
+The script automatically pushes to that repository's configured Git remote.
+
+No username or repository name needs to be hard-coded.
+
+---
+
+# 🎯 Why This Project?
+
+This automation makes it easier to:
+
+* Track LeetCode progress
+* Back up solutions
+* Practice Git and GitHub
+* Preserve different approaches
+* Maintain a coding portfolio
+* Avoid manually copying solutions
+* Avoid giving third-party extensions unnecessary GitHub access
+
+---
+
+# ⭐ Workflow
+
+```text
+             LEETCODE
+                 │
+                 ▼
+           Solve Problem
+                 │
+                 ▼
+             Accepted
+                 │
+                 ▼
+          Logged-in Brave
+                 │
+                 ▼
+        leetcode_script.py
+                 │
+                 ▼
+          Fetch Source Code
+                 │
+                 ▼
+          Your Git Repository
+                 │
+                 ▼
+              Git Add
+                 │
+                 ▼
+             Git Commit
+                 │
+                 ▼
+              Git Push
+                 │
+                 ▼
+              GITHUB 🚀
+```
+
+## License
+
+Feel free to modify and use this automation for your own learning and coding workflow.
